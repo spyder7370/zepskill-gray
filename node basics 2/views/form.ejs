@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <% if(error) { %>
+    <h1>You have entered wrong email</h1>
+    <% } %>
+    <form action="/formsubmit" method="post">
+        <input type="email" value="example@gmail.com" name="email" required>
+        <input type="password" name="password" required>
+        <input type="text" name="image" placeholder="image url here" id="">
+        <!-- <input type="file" name="image" id=""> -->
+        <input type="submit" value="submit form">
+    </form>
+</body>
+
+</html>
