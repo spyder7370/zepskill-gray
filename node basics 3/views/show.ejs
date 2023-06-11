@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>show page for <%= product.name %></h1>
+    <ul>
+        <li><%= product.name %></li>
+        <li><%= product.price %></li>
+        <li><%= product.sellerName %></li>
+        <li><%= product.sellerAddress %></li>
+        <li><%= product.sellerPhone %></li>
+        <li>inStock: <%= product.inStock %></li>
+    </ul>
+    <form action="/products/<%= product._id %>?_method=delete" method="post">
+        <input type="submit" value="delete">
+    </form>
+</body>
+
+</html>
