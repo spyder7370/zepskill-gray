@@ -1,20 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-    <h1>index page</h1>
-    <ul>
+<%- include('partials/header.ejs') %>
+<%- include('partials/navbar.ejs') %>
+<style>
+    .card {
+        border-radius: 2rem;
+    }
+</style>
+<div class="container">
+    <h1 class="display-3 text-center mb-4">List of all products</h1>
+    <div class="row">
         <% for(let product of products) { %>
-        <li><%= product.name %></li>
+        <div class="col-lg-3 col-md-6 ">
+            <div class="card text-white bg-dark mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><%= product.name %> | Rs. <%= product.price %></h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><%= product.sellerAddress %></h6>
+                    <p class="card-text">
+                        <div><%= product.sellerName %></div>
+                        <div><%= product.sellerPhone %></div>
+                    </p>
+                    <a class="card-link">In Stock: <%= product.inStock %></a>
+                    <a href="/products/<%= product._id %>" class="card-link">View More</a>
+                </div>
+            </div>
+        </div>
         <% } %>
-    </ul>
+    </div>
+</div>
 
-</body>
-
-</html>
+<%- include('partials/footer.ejs') %>

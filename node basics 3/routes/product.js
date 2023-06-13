@@ -4,7 +4,9 @@ const router = express.Router();
 const productModel = require('../models/product');
 
 // REST
-
+router.get('/', function(req, res) {
+	res.send('landing page');
+});
 // index -> display all products
 router.get('/products', async function(req, res) {
 	try {
@@ -51,8 +53,13 @@ router.get('/products/:id', async function(req, res) {
 });
 
 // edit -> form
-router.get('/products/:id/edit', function(req, res) {
-	res.render('edit', { id: req.params.id });
+router.get('/products/:id/edit', async function(req, res) {
+	try {
+		const product = await productModel.findById(req.params.id);
+		res.render('edit', { product });
+	} catch (error) {
+		res.send(error);
+	}
 });
 
 // update -> update info in db
@@ -82,6 +89,10 @@ router.delete('/products/:id', async function(req, res) {
 	} catch (error) {
 		res.send(error);
 	}
+});
+
+router.get('*', function(req, res) {
+	res.send('page not found');
 });
 
 module.exports = router;

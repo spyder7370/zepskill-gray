@@ -1,22 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('partials/header.ejs') %>
+<%- include('partials/navbar.ejs') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<div class="container">
+    <h1 class="display-3 text-center mb-4">Edit a Product</h1>
+    <div class="row d-flex justify-content-center">
+        <div class="col-lg-3 col-md-4">
+            <form action="/products/<%= product._id %>?_method=patch" method="post">
+                <div class="mb-3">
+                    <label for="product_name" class="form-label">Product Name</label>
+                    <input type="text" class="form-control" id="product_name" name="name" value="<%= product.name %>">
+                </div>
+                <div class="mb-3">
+                    <label for="product_price" class="form-label">Product Price</label>
+                    <input type="number" class="form-control" id="product_price" name="price"
+                        value="<%= product.price %>">
+                </div>
+                <div class="mb-3">
+                    <label for="seller_name" class="form-label">Seller Name</label>
+                    <input type="text" class="form-control" id="seller_name" name="sellerName"
+                        value="<%= product.sellerName %>">
+                </div>
+                <div class="mb-3">
+                    <label for="seller_address" class="form-label">Seller Address</label>
+                    <input type="text" class="form-control" id="seller_address" name="sellerAddress"
+                        value="<%= product.sellerAddress %>">
+                </div>
+                <div class="mb-3">
+                    <label for="seller_phone" class="form-label">Seller Phone</label>
+                    <input type="number" class="form-control" id="seller_phone" name="sellerPhone"
+                        value="<%= product.sellerPhone %>">
+                </div>
+                <div class="mb-3 form-check">
+                    <% if (product.inStock) { %>
+                    <input type="checkbox" class="form-check-input" id="in_stock" name="inStock" value="true" checked>
+                    <% } else { %>
+                    <input type="checkbox" class="form-check-input" id="in_stock" name="inStock" value="true">
+                    <% } %>
+                    <!-- <input type="checkbox" class="form-check-input" id="in_stock" name="inStock" value="true"
+                        <%= //product.inStock ? 'checked' : '' %>> -->
+                    <label class="form-check-label" for="in_stock">In Stock?</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
 
-<body>
-    <form action="/products/<%= id %>?_method=patch" method="post">
-        <input type="text" name="name" id="" placeholder="product name">
-        <input type="number" name="price" id="" placeholder="product price">
-        <input type="text" name="sellerName" id="" placeholder="seller name">
-        <input type="text" name="sellerAddress" id="" placeholder="seller address">
-        <input type="number" name="sellerPhone" id="" placeholder="seller phone">
-        <input type="checkbox" name="inStock" id="" value="true">
-        <input type="submit" value="add a new product">
-    </form>
-</body>
+</div>
 
-</html>
+<%- include('partials/footer.ejs') %>
+
+<!-- <%-// include('partials/header.ejs') %>
+<%-// include('partials/navbar.ejs') %>
+<form action="/products/<%= //id %>?_method=patch" method="post">
+    <input type="text" name="name" id="" placeholder="product name">
+    <input type="number" name="price" id="" placeholder="product price">
+    <input type="text" name="sellerName" id="" placeholder="seller name">
+    <input type="text" name="sellerAddress" id="" placeholder="seller address">
+    <input type="number" name="sellerPhone" id="" placeholder="seller phone">
+    <input type="checkbox" name="inStock" id="" value="true">
+    <input type="submit" value="add a new product">
+</form>
+<%-// include('partials/footer.ejs') %> -->
