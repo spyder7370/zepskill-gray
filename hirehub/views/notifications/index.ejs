@@ -1,0 +1,6 @@
+<%- include('../partials/header.ejs') %>
+<h1>index page for all notifs</h1>
+<% for(let notif of allNotifs) { %>
+<div><%= notif.body %> - <a href="/notifications/<%= notif._id %>/edit">edit</a></div>
+<% } %>
+<%- include('../partials/footer.ejs') %>

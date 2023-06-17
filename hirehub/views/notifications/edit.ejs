@@ -1,0 +1,8 @@
+<%- include('../partials/header.ejs') %>
+<form action="/notifications/<%= foundNotif._id %>?_method=patch" method="post">
+    <input type="text" name="title" id="" value="<%= foundNotif.title %>">
+    <input type="text" name="body" id="" value="<%= foundNotif.body %>">
+    <input type="text" name="author" id="" value="<%= foundNotif.author %>">
+    <input type="submit" value="edit notif">
+</form>
+<%- include('../partials/footer.ejs') %>

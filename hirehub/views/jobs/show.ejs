@@ -1,0 +1,13 @@
+<%- include('../partials/header') %>
+<h1>show page for job <%= foundJob.postName %></h1>
+<div><%= foundJob.postName %></div>
+<div><%= foundJob.companyName %></div>
+<div><%= foundJob.ctc %></div>
+<div><%= foundJob.cgpa %></div>
+<div><%= foundJob.location %></div>
+<div><%= foundJob.numberOfPositions %></div>
+<div><%= foundJob.description %></div>
+<form action="/jobs/<%= foundJob._id %>?_method=delete" method="post">
+    <input type="submit" value="delete">
+</form>
+<%- include('../partials/footer') %>

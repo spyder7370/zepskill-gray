@@ -1,0 +1,13 @@
+<%- include('../partials/header') %>
+<h1>edit page for job <%= foundJob.postName %></h1>
+<form action="/jobs/<%= foundJob._id %>?_method=patch" method="post">
+    <input required type="text" name="postName" value="<%= foundJob.postName %>" id="">
+    <input required type="text" name="companyName" value="<%= foundJob.companyName %>" id="">
+    <input required type="text" name="location" value="<%= foundJob.location %>" id="">
+    <input required type="number" name="cgpa" value="<%= foundJob.cgpa %>" id="" min="0" max="10" step="0.01">
+    <input required type="number" name="ctc" value="<%= foundJob.ctc %>" id="">
+    <input required type="number" name="numberOfPositions" value="<%= foundJob.numberOfPositions %>" id="">
+    <textarea required name="description" id="" cols="30" rows="3"><%= foundJob.description %></textarea>
+    <input type="submit" value="edit a job">
+</form>
+<%- include('../partials/footer') %>

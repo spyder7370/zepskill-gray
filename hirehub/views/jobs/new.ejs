@@ -1,0 +1,13 @@
+<%- include('../partials/header') %>
+<h1>new page of jobs</h1>
+<form action="/jobs" method="post">
+    <input required type="text" name="postName" placeholder="post name" id="">
+    <input required type="text" name="companyName" placeholder="company name" id="">
+    <input required type="text" name="location" placeholder="location" id="">
+    <input required type="number" name="cgpa" placeholder="cgpa" id="" min="0" max="10" step="0.01">
+    <input required type="number" name="ctc" placeholder="ctc" id="">
+    <input required type="number" name="numberOfPositions" placeholder="number of positions" id="">
+    <textarea required name="description" id="" cols="30" rows="3" placeholder="description"></textarea>
+    <input type="submit" value="add a new job">
+</form>
+<%- include('../partials/footer') %>
