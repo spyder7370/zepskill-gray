@@ -1,0 +1,11 @@
+<%- include('../partials/header') %>
+<form action="/signup" method="post">
+    <input type="email" name="username" id="" placeholder="email">
+    <input type="password" name="password" id="" placeholder="password">
+    <input type="date" name="dob" id="">
+    <input type="text" name="phone" id="" placeholder="phone">
+    <input type="number" name="cgpa" min="0" max="10" step="0.01" placeholder="cgpa" id="">
+    <input type="text" name="gender" placeholder="gender" id="">
+    <input type="submit" value="register">
+</form>
+<%- include('../partials/footer') %>
