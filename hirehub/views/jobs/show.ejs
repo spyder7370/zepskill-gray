@@ -7,6 +7,7 @@
 <div><%= foundJob.location %></div>
 <div><%= foundJob.numberOfPositions %></div>
 <div><%= foundJob.description %></div>
+<div><%= foundJob.status %></div>
 <form action="/jobs/<%= foundJob._id %>?_method=delete" method="post">
     <input type="submit" value="delete">
 </form>

@@ -9,9 +9,11 @@ router.get('/login', (req, res) => {
 router.post(
 	'/login',
 	passport.authenticate('local', {
-		failureRedirect: '/login'
+		failureRedirect: '/login',
+		failureFlash: true
 	}),
 	(req, res) => {
+		console.log(req.user);
 		res.redirect('/jobs');
 	}
 );
@@ -38,7 +40,7 @@ router.post('/signup', async (req, res) => {
 });
 router.get('/logout', (req, res) => {
 	req.logout(function(error) {
-		if (error) res.send(error);
+		if (error) return res.send(error);
 		res.redirect('/jobs');
 	});
 });

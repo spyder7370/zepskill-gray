@@ -3,10 +3,12 @@ const router = express.Router();
 const Job = require('../models/job');
 const Notification = require('../models/notification');
 
+// ! MIDDLEWARES
+const { checkLoggedIn, checkAdmin } = require('../middlewares/index');
+
 // ! INDEX ROUTE
 router.get('/jobs', async (req, res) => {
 	try {
-		console.log(req.user);
 		let pageNo = 1;
 		if (req.query.page) pageNo = req.query.page;
 		const allJobs = await Job.paginate(
@@ -16,21 +18,20 @@ router.get('/jobs', async (req, res) => {
 				limit: 10
 			}
 		);
-		// console.log(allJobs);
 		res.render('jobs/index', { allJobs });
-		// res.render('index', { allJobs });
 	} catch (error) {
-		res.send(error);
+		req.flash('error', 'there is something wrong');
+		res.redirect('/');
 	}
 });
 
 // ! NEW ROUTE
-router.get('/jobs/new', (req, res) => {
+router.get('/jobs/new', checkLoggedIn, checkAdmin, (req, res) => {
 	res.render('jobs/new');
 });
 
 // ! CREATE ROUTE
-router.post('/jobs', async (req, res) => {
+router.post('/jobs', checkLoggedIn, checkAdmin, async (req, res) => {
 	try {
 		const newJob = new Job({
 			postName: req.body.postName,
@@ -60,12 +61,13 @@ router.get('/jobs/:id', async (req, res) => {
 		const foundJob = await Job.findById(req.params.id);
 		res.render('jobs/show', { foundJob });
 	} catch (error) {
-		res.send(error);
+		req.flash('error', 'there is something wrong');
+		res.redirect('/jobs');
 	}
 });
 
 // ! EDIT ROUTE
-router.get('/jobs/:id/edit', async (req, res) => {
+router.get('/jobs/:id/edit', checkLoggedIn, checkAdmin, async (req, res) => {
 	try {
 		const foundJob = await Job.findById(req.params.id);
 		res.render('jobs/edit', { foundJob });
@@ -75,7 +77,7 @@ router.get('/jobs/:id/edit', async (req, res) => {
 });
 
 // ! UPDATE ROUTE
-router.patch('/jobs/:id', async (req, res) => {
+router.patch('/jobs/:id', checkLoggedIn, checkAdmin, async (req, res) => {
 	try {
 		const jobData = {
 			postName: req.body.postName,
@@ -93,6 +95,7 @@ router.patch('/jobs/:id', async (req, res) => {
 			author: jobData.companyName
 		});
 		await newNotif.save();
+		req.flash('success', 'update is done');
 		res.redirect('/jobs');
 	} catch (error) {
 		res.send(error);
@@ -100,7 +103,7 @@ router.patch('/jobs/:id', async (req, res) => {
 });
 
 // ! DELETE ROUTE
-router.delete('/jobs/:id', async (req, res) => {
+router.delete('/jobs/:id', checkLoggedIn, checkAdmin, async (req, res) => {
 	try {
 		const jobData = await Job.findById(req.params.id);
 		await Job.findByIdAndDelete(req.params.id);
@@ -116,33 +119,18 @@ router.delete('/jobs/:id', async (req, res) => {
 	}
 });
 
-router.get('/seed', async (req, res) => {
+// ! changing job status
+router.get('/jobs/:id/status', checkLoggedIn, checkAdmin, async (req, res) => {
 	try {
-		for (let i = 0; i < 1000; ++i) {
-			const newJob = new Job({
-				postName: 'sde',
-				companyName: 'amazon',
-				ctc: 30,
-				location: 'gurgaon',
-				cgpa: 7,
-				description: 'adfadsfasdfasdf',
-				numberOfPositions: 50
-			});
-			await newJob.save();
-		}
-		res.send('ok');
+		const { type } = req.query,
+			{ id } = req.params;
+		if (!type) return res.redirect(`/jobs/${id}`);
+		if (![ 'active', 'over', 'interview' ].includes(type)) type = 'active';
+		const job = await Job.findByIdAndUpdate(id, { status: type });
+		res.redirect(`/jobs/${id}`);
 	} catch (error) {
 		res.send(error);
 	}
 });
 
 module.exports = router;
-
-/*
- 1 - 10 result -> limit = 10, skip = 0,
- results 11-20 -> limit = 20, skip = 10
- 1-20 - 1-10 => 11-20
- limit = 30, skip = 20 => 21-30
- model.find()
- model.paginate()
-*/

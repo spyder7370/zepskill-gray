@@ -28,6 +28,11 @@ const jobSchema = new mongoose.Schema({
 		min: 0,
 		max: [ 10, 'Maximum allowed value for cgpa is 10' ]
 	},
+	status: {
+		type: String,
+		enum: [ 'active', 'over', 'interview' ],
+		default: 'active'
+	},
 	description: String,
 	numberOfPositions: Number
 });

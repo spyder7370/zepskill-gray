@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
-
 const Notification = require('../models/notification');
-// CRUD
+
+// ! MIDDLEWARES
+const { checkLoggedIn, checkAdmin } = require('../middlewares/index');
+
 router.get('/notifications', async (req, res) => {
 	try {
 		const allNotifs = await Notification.find();
@@ -12,11 +14,11 @@ router.get('/notifications', async (req, res) => {
 	}
 });
 
-router.get('/notifications/new', (req, res) => {
+router.get('/notifications/new', checkLoggedIn, checkAdmin, (req, res) => {
 	res.render('notifications/new');
 });
 
-router.post('/notifications', async (req, res) => {
+router.post('/notifications', checkLoggedIn, checkAdmin, async (req, res) => {
 	try {
 		const newNotif = new Notification({
 			title: req.body.title,
@@ -30,7 +32,7 @@ router.post('/notifications', async (req, res) => {
 	}
 });
 
-router.get('/notifications/:id/edit', async (req, res) => {
+router.get('/notifications/:id/edit', checkLoggedIn, checkAdmin, async (req, res) => {
 	try {
 		const foundNotif = await Notification.findById(req.params.id);
 		res.render('notifications/edit', { foundNotif });
@@ -39,7 +41,7 @@ router.get('/notifications/:id/edit', async (req, res) => {
 	}
 });
 
-router.patch('/notifications/:id', async (req, res) => {
+router.patch('/notifications/:id', checkLoggedIn, checkAdmin, async (req, res) => {
 	try {
 		const notifData = {
 			title: req.body.title,
@@ -53,7 +55,7 @@ router.patch('/notifications/:id', async (req, res) => {
 	}
 });
 
-router.delete('/notifications/:id', async (req, res) => {
+router.delete('/notifications/:id', checkLoggedIn, checkAdmin, async (req, res) => {
 	try {
 		await Notification.findByIdAndDelete(req.params.id);
 		res.redirect('/notifications');

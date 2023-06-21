@@ -1,0 +1,10 @@
+<%- include('../partials/header') %>
+<form action="/users/<%= foundUser._id %>?_method=patch" method="post">
+    <input type="email" name="username" id="" value="<%= foundUser.username %>" disabled>
+    <input type="date" name="dob" id="" value="<%= foundUser.dob %>">
+    <input type="text" name="phone" id="" value="<%= foundUser.phone %>">
+    <input type="number" name="cgpa" min="0" max="10" step="0.01" value="<%= foundUser.cgpa %>">
+    <input type="text" name="gender" value="<%= foundUser.gender %>" id="">
+    <input type="submit" value="update">
+</form>
+<%- include('../partials/footer') %>
