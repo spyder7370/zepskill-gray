@@ -10,7 +10,9 @@ router.get('/notifications', async (req, res) => {
 		const allNotifs = await Notification.find();
 		res.render('notifications/index', { allNotifs });
 	} catch (error) {
-		res.send(error);
+		req.flash('error', 'Something went wrong while fetching all notifications, please try again later');
+		console.log(error);
+		res.redirect('/jobs');
 	}
 });
 
@@ -26,9 +28,12 @@ router.post('/notifications', checkLoggedIn, checkAdmin, async (req, res) => {
 			author: req.body.author
 		});
 		await newNotif.save();
+		req.flash('success', 'Successfully created a notification');
 		res.redirect('/notifications');
 	} catch (error) {
-		res.send(error);
+		req.flash('error', 'Something went wrong while creating a notification, please try again later');
+		console.log(error);
+		res.redirect('/notifications');
 	}
 });
 
@@ -37,7 +42,9 @@ router.get('/notifications/:id/edit', checkLoggedIn, checkAdmin, async (req, res
 		const foundNotif = await Notification.findById(req.params.id);
 		res.render('notifications/edit', { foundNotif });
 	} catch (error) {
-		res.send(error);
+		req.flash('error', 'Something went wrong while fetching a notification, please try again later');
+		console.log(error);
+		res.redirect('/notifications');
 	}
 });
 
@@ -49,18 +56,24 @@ router.patch('/notifications/:id', checkLoggedIn, checkAdmin, async (req, res) =
 			author: req.body.author
 		};
 		await Notification.findByIdAndUpdate(req.params.id, notifData);
+		req.flash('success', 'Successfully updated a notification');
 		res.redirect('/notifications');
 	} catch (error) {
-		res.send(error);
+		req.flash('error', 'Something went wrong while updating a notification, please try again later');
+		console.log(error);
+		res.redirect('/notifications');
 	}
 });
 
 router.delete('/notifications/:id', checkLoggedIn, checkAdmin, async (req, res) => {
 	try {
 		await Notification.findByIdAndDelete(req.params.id);
+		req.flash('success', 'Successfully deleted a notification');
 		res.redirect('/notifications');
 	} catch (error) {
-		res.send(error);
+		req.flash('error', 'Something went wrong while deleting a notification, please try again later');
+		console.log(error);
+		res.redirect('/notifications');
 	}
 });
 

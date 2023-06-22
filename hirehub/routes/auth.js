@@ -6,6 +6,7 @@ const User = require('../models/user');
 router.get('/login', (req, res) => {
 	res.render('users/login');
 });
+
 router.post(
 	'/login',
 	passport.authenticate('local', {
@@ -13,13 +14,15 @@ router.post(
 		failureFlash: true
 	}),
 	(req, res) => {
-		console.log(req.user);
+		req.flash('success', 'Welcome back user');
 		res.redirect('/jobs');
 	}
 );
+
 router.get('/signup', (req, res) => {
 	res.render('users/signup');
 });
+
 router.post('/signup', async (req, res) => {
 	try {
 		const newUser = new User({
@@ -31,16 +34,29 @@ router.post('/signup', async (req, res) => {
 		});
 		let registeredUser = await User.register(newUser, req.body.password);
 		req.login(registeredUser, function(error) {
-			if (error) res.send(error);
+			if (error) {
+				req.flash('error', 'Something went wrong while signing you up, please try again later');
+				console.log(error);
+				res.redirect('/jobs');
+			}
+			req.flash('success', 'Registration successful');
 			res.redirect('/jobs');
 		});
 	} catch (error) {
-		res.send(error);
+		req.flash('error', 'Something went wrong while signing you up, please try again later');
+		console.log(error);
+		res.redirect('/jobs');
 	}
 });
+
 router.get('/logout', (req, res) => {
 	req.logout(function(error) {
-		if (error) return res.send(error);
+		if (error) {
+			req.flash('error', 'Something went wrong while logging you out, please try again later');
+			console.log(error);
+			res.redirect('/jobs');
+		}
+		req.flash('success', 'Successfully logged out');
 		res.redirect('/jobs');
 	});
 });

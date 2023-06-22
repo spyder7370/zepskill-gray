@@ -11,7 +11,9 @@ router.get('/users/:id', async (req, res) => {
 		const foundUser = await User.findById(req.params.id);
 		res.render('users/show', { foundUser });
 	} catch (error) {
-		res.send(error);
+		req.flash('error', 'Something went wrong while fetching a user, please try again later');
+		console.log(error);
+		res.redirect('/jobs');
 	}
 });
 
@@ -20,7 +22,9 @@ router.get('/users/:id/edit', checkLoggedIn, verifyUser, async (req, res) => {
 		const foundUser = await User.findById(req.params.id);
 		res.render('users/edit', { foundUser });
 	} catch (error) {
-		res.send(error);
+		req.flash('error', 'Something went wrong while fetching a user, please try again later');
+		console.log(error);
+		res.redirect('/jobs');
 	}
 });
 
@@ -34,9 +38,12 @@ router.patch('/users/:id', checkLoggedIn, verifyUser, async (req, res) => {
 			phone: req.body.phone
 		};
 		await User.findByIdAndUpdate(id, userData);
+		req.flash('success', 'Successfully updated a user');
 		res.redirect(`/users/${id}`);
 	} catch (error) {
-		res.send(error);
+		req.flash('error', 'Something went wrong while updating a user, please try again later');
+		console.log(error);
+		res.redirect(`/users/${req.params.id}`);
 	}
 });
 

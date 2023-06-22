@@ -18,7 +18,6 @@ mongoose
 	.catch((error) => {
 		console.log(error);
 	});
-const User = require('./models/user');
 
 // ! Session setup
 app.use(
@@ -35,6 +34,7 @@ app.use(
 );
 
 // ! passport setup
+const User = require('./models/user');
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
@@ -52,7 +52,7 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 // method override setup
 app.use(methodOverride('_method'));
-
+// global middleware
 app.use((req, res, next) => {
 	res.locals.success = req.flash('success');
 	res.locals.error = req.flash('error');
