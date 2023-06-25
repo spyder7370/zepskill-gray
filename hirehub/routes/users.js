@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const Resume = require('../models/resume');
 
 // ! MIDDLEWARES
 const { checkLoggedIn, verifyUser } = require('../middlewares/index');
@@ -42,6 +43,34 @@ router.patch('/users/:id', checkLoggedIn, verifyUser, async (req, res) => {
 		res.redirect(`/users/${id}`);
 	} catch (error) {
 		req.flash('error', 'Something went wrong while updating a user, please try again later');
+		console.log(error);
+		res.redirect(`/users/${req.params.id}`);
+	}
+});
+
+// ! resume
+router.get('/users/:id/resume', checkLoggedIn, verifyUser, async (req, res) => {
+	try {
+		const user = await User.findById(req.params.id);
+		res.render('users/edit_resume', { user });
+	} catch (error) {
+		req.flash('error', 'Something went wrong while updating resume, please try again later');
+		console.log(error);
+		res.redirect(`/users/${req.params.id}`);
+	}
+});
+
+router.post('/users/:id/resume', checkLoggedIn, verifyUser, async (req, res) => {
+	// res.send(req.body);
+	try {
+		const resume = new Resume({ ...req.body });
+		await resume.save();
+		const user = await User.findById(req.user._id);
+		user.resume = resume;
+		await user.save();
+		res.redirect(`/users/${req.params.id}`);
+	} catch (error) {
+		req.flash('error', 'Something went wrong while updating resume, please try again later');
 		console.log(error);
 		res.redirect(`/users/${req.params.id}`);
 	}

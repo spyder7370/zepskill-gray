@@ -9,8 +9,8 @@ const jobSchema = new mongoose.Schema({
 	postName: {
 		type: String,
 		required: [ true, 'You must enter the name of post' ],
-		default: 'SDE',
-		enum: [ 'SDE', 'analyst', 'ui', 'hr', 'manager' ]
+		default: 'SDE'
+		// enum: [ 'SDE', 'analyst', 'ui', 'hr', 'manager' ]
 	},
 	companyName: {
 		type: String,
@@ -34,7 +34,23 @@ const jobSchema = new mongoose.Schema({
 		default: 'active'
 	},
 	description: String,
-	numberOfPositions: Number
+	numberOfPositions: Number,
+	appliedUsers: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'user'
+		}
+	],
+	questions: [
+		{
+			title: String,
+			option1: String,
+			option2: String,
+			option3: String,
+			option4: String,
+			correctAnswer: String
+		}
+	]
 });
 jobSchema.plugin(mongoosePaginate);
 // module.exports = mongoose.model('job', jobSchema);

@@ -56,6 +56,7 @@ app.use(methodOverride('_method'));
 app.use((req, res, next) => {
 	res.locals.success = req.flash('success');
 	res.locals.error = req.flash('error');
+	res.locals.currentUser = req.user;
 	next();
 });
 
@@ -67,10 +68,12 @@ const jobRoutes = require('./routes/jobs');
 const notifRoutes = require('./routes/notifications');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
+const quesRoutes = require('./routes/questions');
 app.use(jobRoutes);
 app.use(notifRoutes);
 app.use(authRoutes);
 app.use(userRoutes);
+app.use(quesRoutes);
 
 app.listen(3000, () => {
 	console.log('server running on port 3000');

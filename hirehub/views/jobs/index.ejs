@@ -1,5 +1,9 @@
 <%- include('../partials/header') %>
 <h1>index page of jobs</h1>
+<form action="/jobs/search" method="get">
+    <input type="text" name="name" id="">
+    <input type="submit" value="search">
+</form>
 <nav aria-label="Page navigation example">
     <ul class="pagination">
         <li class="page-item"><a class="page-link" href="/jobs?page=<%= allJobs.prevPage %>">Previous</a></li>

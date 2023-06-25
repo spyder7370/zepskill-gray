@@ -2,12 +2,12 @@ todo:
 1. authorization -------
 2. user routes --------
 3. job status -----
-4. applying
-5. questions
-6. tests
-7. resume
-8. flash
-9. fuzzy searching
+4. applying -----
+5. questions -----
+6. tests ----
+7. resume -----
+8. flash ------
+9. fuzzy searching ---
 
 Authentication
 * create session - express session

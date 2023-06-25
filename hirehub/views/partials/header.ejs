@@ -10,6 +10,37 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/jobs">JOB-FAIR</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/jobs">All Jobs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/jobs/new">add new job</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <% if (currentUser) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/<%= currentUser._id %>"><%= currentUser.username %></a>
+                    </li>
+                    <a href="/logout" class="btn btn-outline-danger">Logout</a>
+                    <% } else {%>
+                    <a href="/login" class="btn btn-outline-primary me-3">Login</a>
+                    <a href="/signup" class="btn btn-outline-secondary me-3">SignUp</a>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <% if (success && success.length>0) { %>
     <div class="alert alert-success" role="alert">
         <%= success %>

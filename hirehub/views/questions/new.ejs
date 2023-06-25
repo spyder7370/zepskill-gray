@@ -1,0 +1,13 @@
+<%- include('../partials/header.ejs') %>
+
+<form action="/jobs/<%= id %>/questions" method="post">
+    <input type="text" name="title" id="">
+    <input type="text" name="option1" id="">
+    <input type="text" name="option2" id="">
+    <input type="text" name="option3" id="">
+    <input type="text" name="option4" id="">
+    <input type="text" name="correctAnswer" id="">
+    <input type="submit" value="add question">
+</form>
+
+<%- include('../partials/footer.ejs') %>

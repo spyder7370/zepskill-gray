@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
 		type: Number,
 		min: 0,
 		max: 10
+	},
+	resume: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'resume'
 	}
 });
 userSchema.plugin(passportLocalMongoose);

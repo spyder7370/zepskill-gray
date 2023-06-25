@@ -8,7 +8,13 @@
 <div><%= foundJob.numberOfPositions %></div>
 <div><%= foundJob.description %></div>
 <div><%= foundJob.status %></div>
+<a href="/jobs/<%= foundJob._id %>/edit" class="btn btn-warning">Edit</a>
 <form action="/jobs/<%= foundJob._id %>?_method=delete" method="post">
-    <input type="submit" value="delete">
+    <input class="btn btn-danger" type="submit" value="delete">
 </form>
+<% if (currentUser) { %>
+<a href="/jobs/<%= foundJob._id %>/apply/<%= currentUser._id %>" class="btn btn-info">Apply</a>
+<% } %>
+<a href="/jobs/<%= foundJob._id %>/questions" class="btn btn-primary">questions</a>
+<a href="/jobs/<%= foundJob._id %>/test" class="btn btn-primary">give test</a>
 <%- include('../partials/footer') %>

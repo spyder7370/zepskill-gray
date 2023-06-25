@@ -1,0 +1,40 @@
+<%- include('../partials/header.ejs') %>
+<div class="container">
+    <form action="/jobs/<%= job._id %>/test" method="post">
+        <% job.questions.forEach((ques, idx)=>{ %>
+        <h4><%= ques.title %></h4>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="question<%= idx %>" id="question<%= idx %>1"
+                value="option1">
+            <label class="form-check-label" for="question<%= idx %>1">
+                <%= ques.option1 %>
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="question<%= idx %>" id="question<%= idx %>2"
+                value="option2">
+            <label class="form-check-label" for="question<%= idx %>2">
+                <%= ques.option2 %>
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="question<%= idx %>" id="question<%= idx %>3"
+                value="option3">
+            <label class="form-check-label" for="question<%= idx %>3">
+                <%= ques.option3 %>
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="question<%= idx %>" id="question<%= idx %>4"
+                value="option4">
+            <label class="form-check-label" for="question<%= idx %>4">
+                <%= ques.option4 %>
+            </label>
+        </div>
+        <hr>
+        <% }) %>
+        <input type="submit" value="submit">
+        <input type="reset" value="reset">
+    </form>
+</div>
+<%- include('../partials/footer.ejs') %>

@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+<form action="/users/<%= user._id %>/resume" method="post">
+    <input type="text" name="name" id="">
+    <input type="text" name="phone" id="">
+    <input type="text" name="linkedIn" id="">
+    <textarea name="achievements" id="" cols="30" rows="10"></textarea>
+    <br>
+    <!-- experience.companyName / experience['companyName'] -->
+    <input type="text" name="experience[companyName]" id="">
+    <input type="text" name="experience[designation]" id="">
+    <textarea name="experience[description]" id="" cols="30" rows="10"></textarea>
+    <input type="date" name="experience[startDate]" id="">
+    <input type="date" name="experience[endDate]" id="">
+    <br>
+    <!-- experience.companyName / experience['companyName'] -->
+    <!-- <input type="text" name="experience[companyName]" id="">
+    <input type="text" name="experience[designation]" id="">
+    <textarea name="experience[description]" id="" cols="30" rows="10"></textarea>
+    <input type="date" name="experience[startDate]" id="">
+    <input type="date" name="experience[endDate]" id="">
+    <input type="submit" value="submit" class="btn btn-primary"> -->
+</form>
+<%- include('../partials/footer') %>

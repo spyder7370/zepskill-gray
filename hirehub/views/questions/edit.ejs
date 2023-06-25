@@ -1,0 +1,13 @@
+<%- include('../partials/header.ejs') %>
+
+<form action="/jobs/<%= id %>/questions/<%= idx %>?_method=patch" method="post">
+    <input type="text" name="title" value="<%= question.title %>" id="">
+    <input type="text" name="option1" value="<%= question.option1 %>" id="">
+    <input type="text" name="option2" value="<%= question.option2 %>" id="">
+    <input type="text" name="option3" value="<%= question.option3 %>" id="">
+    <input type="text" name="option4" value="<%= question.option4 %>" id="">
+    <input type="text" name="correctAnswer" value="<%= question.correctAnswer %>" id="">
+    <input type="submit" value="add question">
+</form>
+
+<%- include('../partials/footer.ejs') %>

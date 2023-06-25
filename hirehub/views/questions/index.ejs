@@ -1,0 +1,17 @@
+<%- include('../partials/header.ejs') %>
+<a href="/jobs/<%= job._id %>/questions/new" class="btn btn-lg btn-success">add a new question</a>
+<% job.questions.forEach((ques, i)=>{ %>
+<div><%= ques.title %></div>
+<div><%= ques.option1 %></div>
+<div><%= ques.option2 %></div>
+<div><%= ques.option3 %></div>
+<div><%= ques.option4 %></div>
+<div><%= ques.correctAnswer %></div>
+<a href="/jobs/<%= job._id %>/questions/<%= i %>/edit" class="btn btn-warning btn-sm">edit</a>
+<form action="/jobs/<%= job._id %>/questions/<%= i %>?_method=delete" method="post">
+    <input type="submit" value="delete" class="btn btn-sm btn-danger">
+</form>
+<hr>
+<% }) %>
+
+<%- include('../partials/footer.ejs') %>
