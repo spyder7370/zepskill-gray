@@ -1,0 +1,20 @@
+<%- include('../partials/header.ejs') %>
+<%- include('../partials/navbar.ejs') %>
+<h1>Index page</h1>
+<div class="container">
+    <div class="row">
+        <% for(let hotel of hotels) { %>
+        <div class="col-lg-4">
+            <div class="card" style="width: 18rem;">
+                <img src="<%= hotel.image[0] %>" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"><%= hotel.name %></h5>
+                    <p class="card-text"><%= hotel.address %></p>
+                    <a href="/hotels/<%= hotel._id %>" class="btn btn-primary">More Details</a>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+<%- include('../partials/footer.ejs') %>

@@ -75,6 +75,7 @@ app.use(authRoutes);
 app.use(userRoutes);
 app.use(quesRoutes);
 
-app.listen(3000, () => {
-	console.log('server running on port 3000');
+const port = process.env.PORT;
+app.listen(port, () => {
+	console.log(`server running on port ${port}`);
 });
