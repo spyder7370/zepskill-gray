@@ -4,19 +4,19 @@ const router = express.Router();
 const Hotel = require('../models/hotel');
 
 router.get('/', (req, res) => {
-	res.render('landing', { page: 'Home - Hotels' });
+	res.render('landing', { page: 'Home - StaySense' });
 });
 
 router.get('/hotels', async (req, res) => {
 	try {
 		const hotels = await Hotel.find();
-		res.render('hotels/index', { hotels, page: 'Index - Hotels' });
+		res.render('hotels/index', { hotels, page: 'All Hotels - StaySense' });
 	} catch (error) {
 		res.send(error);
 	}
 });
 router.get('/hotels/new', (req, res) => {
-	res.render('hotels/new', { page: 'New Hotel - Hotels' });
+	res.render('hotels/new', { page: 'New Hotel - StaySense' });
 });
 router.post('/hotels', async (req, res) => {
 	try {
@@ -30,7 +30,7 @@ router.post('/hotels', async (req, res) => {
 router.get('/hotels/:id', async (req, res) => {
 	try {
 		const hotel = await Hotel.findById(req.params.id);
-		res.render('hotels/show', { hotel, page: 'Hotel' });
+		res.render('hotels/show', { hotel, page: 'Hotel Details - StaySense' });
 	} catch (error) {
 		res.send(error);
 	}
@@ -38,7 +38,7 @@ router.get('/hotels/:id', async (req, res) => {
 router.get('/hotels/:id/edit', async (req, res) => {
 	try {
 		const hotel = await Hotel.findById(req.params.id);
-		res.render('hotels/edit', { hotel, page: 'Edit Hotel' });
+		res.render('hotels/edit', { hotel, page: 'Edit Hotel - StaySense' });
 	} catch (error) {
 		res.send(error);
 	}
