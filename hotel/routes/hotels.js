@@ -29,8 +29,9 @@ router.post('/hotels', async (req, res) => {
 });
 router.get('/hotels/:id', async (req, res) => {
 	try {
-		const hotel = await Hotel.findById(req.params.id);
-		res.render('hotels/show', { hotel, page: 'Hotel Details - StaySense' });
+		const hotel = await Hotel.findById(req.params.id).populate('reviews');
+		const reviews = hotel.reviews;
+		res.render('hotels/show', { reviews, hotel, page: 'Hotel Details - StaySense' });
 	} catch (error) {
 		res.send(error);
 	}

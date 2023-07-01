@@ -1,0 +1,9 @@
+- reviews + ratings  ------------
+- average rating
+- upvote/downvote
+- file upload
+- location
+- payment
+- contact
+- google authentication
+- authorization (isauth, isauthor)

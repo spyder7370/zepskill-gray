@@ -18,7 +18,19 @@ const hotelSchema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'review'
 		}
-	]
+	],
+	sumOfRatings: {
+		type: Number,
+		default: 0
+	},
+	averageRating: {
+		type: Number,
+		default: 0
+	},
+	totalRatings: {
+		type: Number,
+		default: 0
+	}
 });
 
 module.exports = mongoose.model('hotel', hotelSchema);

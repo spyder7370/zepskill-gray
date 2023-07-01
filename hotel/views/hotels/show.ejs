@@ -77,7 +77,60 @@
                         </div>
                     </div>
                 </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSix">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                            <strong>Average Rating</strong>
+                        </button>
+                    </h2>
+                    <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <%= hotel.averageRating.toFixed(2) %>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="mt-3 d-flex">
+                <a href="/hotels/<%= hotel._id %>/edit" class="btn btn-warning me-3">Edit</a>
+                <form action="/hotels/<%= hotel._id %>?_method=delete" method="post">
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                </form>
+            </div>
+            <div class="mt-3">
+                <a href="/hotels/<%= hotel._id %>/reviews/new" class="btn btn-primary">Add a new Review</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <h1 class="mt-4">Reviews</h1>
+            <% for( let review of reviews ) { %>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title"><%= review.title %></h5>
+                    <p class="card-text"><%= review.body %></p>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: <%=20*review.stars%>%;"
+                            aria-valuenow="<%=20*review.stars%>" aria-valuemin="0" aria-valuemax="100">
+                            <%= review.stars %>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <a href="/hotels/<%= hotel._id %>/reviews/<%= review._id %>/edit"
+                            class="mt-3 btn btn-warning btn-sm">Edit</a>
+                        <form action="/hotels/<%= hotel._id %>/reviews/<%= review._id %>?_method=delete" method="post">
+                            <input type="submit" value="delete" class="ms-2 mt-3 btn btn-danger btn-sm">
+                        </form>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <%= review.user %>
+                </div>
+            </div>
+            <% } %>
         </div>
     </div>
 </div>
