@@ -1,9 +1,36 @@
 <%- include('../partials/header.ejs') %>
 <%- include('../partials/navbar.ejs') %>
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<style>
+    #mapContainer {
+        margin: 0 auto 2rem auto;
+        width: 50%;
+        height: 20rem;
+    }
+</style>
 <div class="container">
     <div class="row mt-5">
         <div class="col-lg-6">
-            <img class="img-fluid" src="<%= hotel.image %>" alt="">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <% for(let idx in hotel.image) { %>
+                    <div class="carousel-item <%= idx==0?'active':'' %>">
+                        <img src="<%= hotel.image[idx] %>" class="d-block w-100" alt="...">
+                    </div>
+                    <% } %>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
         </div>
         <div class="col-lg-6">
             <div class="accordion" id="accordionExample">
@@ -133,5 +160,27 @@
             <% } %>
         </div>
     </div>
+    <div id="mapContainer"></div>
 </div>
+<script>
+    mapboxgl.accessToken =
+        'pk.eyJ1Ijoic3BsaWNlcjk5MDQiLCJhIjoiY2xnN2s5OTB3MDY3azNndDNpa2owaHZ2YiJ9.PedtrrnU42OwchHkKqrmLQ';
+    const map = new mapboxgl.Map({
+        container: 'mapContainer', // container ID
+        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+        style: 'mapbox://styles/mapbox/dark-v11', // style URL
+        center: [<%-hotel.location.coordinates%>], // starting position [lng, lat]
+        zoom: 15 // starting zoom
+    });
+
+    const popup = new mapboxgl.Popup().setHTML(
+        '<h5><%=hotel.name%></h5><hr><p><%=hotel.address%></p>'
+    );
+
+    const marker1 = new mapboxgl.Marker({color: '#EA7900'})
+            .setLngLat([<%-hotel.location.coordinates%>])
+            .setPopup(popup)
+            .addTo(map);
+    map.addControl(new mapboxgl.NavigationControl());
+</script>
 <%- include('../partials/footer.ejs') %>

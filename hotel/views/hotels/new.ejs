@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-4 m-auto">
             <h1 class="text-center mt-4">New page</h1>
-            <form action="/hotels" method="post">
+            <form action="/hotels" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
                     <input type="text" class="form-control" id="name" name="hotel[name]">
@@ -18,8 +18,8 @@
                     <input type="text" class="form-control" id="address" name="hotel[address]">
                 </div>
                 <div class="mb-3">
-                    <label for="image" class="form-label">Image</label>
-                    <input type="text" class="form-control" id="image" name="hotel[image]">
+                    <label for="formFile" class="form-label">Images</label>
+                    <input class="form-control" type="file" id="formFile" name="image" multiple>
                 </div>
                 <div class="form-floating">
                     <textarea class="form-control" placeholder="Leave a comment here" id="description"
