@@ -7,14 +7,14 @@
             <form action="/contact" method="post">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="name" name="contact[name]">
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email">
+                    <input type="email" class="form-control" id="email" name="contact[email]">
                 </div>
                 <div class="form-floating">
-                    <textarea name="body" class="form-control" placeholder="Leave a comment here"
+                    <textarea name="contact[body]" class="form-control" placeholder="Leave a comment here"
                         id="floatingTextarea"></textarea>
                     <label for="floatingTextarea">Body</label>
                 </div>

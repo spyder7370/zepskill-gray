@@ -3,7 +3,7 @@
 - file upload ----------
 - location/geocoding ---------
 - payment
-- contact
+- contact -----
 - google authentication
 - authorization (isauth, isauthor)
 - upvote/downvote

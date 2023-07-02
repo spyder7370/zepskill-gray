@@ -32,10 +32,7 @@ const hotelSchema = new mongoose.Schema({
 		default: 0
 	},
 	location: {
-		type: {
-			type: String,
-			default: 'Point'
-		},
+		type: String,
 		coordinates: [ Number ]
 	}
 });

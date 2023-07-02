@@ -10,6 +10,9 @@ const upload = multer({ storage });
 // MAPBOX
 const geocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocodingClient = geocoding({ accessToken: process.env.MAPBOX_TOKEN });
+// CONTACT FORM
+const { sendEmail } = require('../middlewares/email');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 router.get('/', (req, res) => {
 	res.render('landing', { page: 'Home - StaySense' });
@@ -19,7 +22,8 @@ router.get('/contact', (req, res) => {
 });
 router.post('/contact', async (req, res) => {
 	try {
-		res.send(req.body);
+		await sendEmail(req.body.contact);
+		res.redirect('/contact');
 	} catch (error) {
 		res.send(error);
 	}
@@ -98,5 +102,38 @@ router.delete('/hotels/:id', async (req, res) => {
 		res.send(error);
 	}
 });
-
+router.get('/hotels/:id/checkout', async (req, res) => {
+	try {
+		const hotel = await Hotel.findById(req.params.id);
+		const session = await stripe.checkout.sessions.create({ 
+			payment_method_types: ["card"], 
+			line_items: [ 
+			  { 
+				price_data: { 
+					currency: "inr", 
+					product_data: { 
+						name: hotel.name, 
+						description: hotel.address,
+						images: [hotel.image[0]]
+					}, 
+					unit_amount: hotel.price * 100, 
+				}, 
+				quantity: 1, 
+			  }, 
+			], 
+			mode: "payment", 
+			success_url: "http://localhost:3000/success", 
+			cancel_url: "http://localhost:3000/cancel", 
+		}); 
+		res.redirect(session.url);
+	} catch (error) {
+		res.send(error);
+	}
+});
+router.get('/success', (req, res)=>{
+	res.send('payment successful');
+})
+router.get('/cancel', (req, res)=>{
+	res.send('payment cancelled');
+})
 module.exports = router;
