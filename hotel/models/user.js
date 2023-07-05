@@ -6,7 +6,9 @@ const userSchema = new mongoose.Schema({
 	name: String,
 	age: Number,
 	phone: String,
-	address: String
+	address: String,
+	googleId: String,
+	googleToken: String
 });
 
 userSchema.plugin(passportLocalMongoose);

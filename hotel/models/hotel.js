@@ -32,8 +32,14 @@ const hotelSchema = new mongoose.Schema({
 		default: 0
 	},
 	location: {
-		type: String,
+		type: {
+			type: String
+		},
 		coordinates: [ Number ]
+	},
+	author: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'user'
 	}
 });
 

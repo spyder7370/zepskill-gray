@@ -6,9 +6,7 @@ const path = require('path');
 const app = express();
 const session = require('express-session');
 require('dotenv').config();
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
-
+const flash = require('connect-flash');
 mongoose
 	.connect(process.env.MONGODB_URI)
 	.then(() => {
@@ -31,28 +29,29 @@ app.use(
 	})
 );
 
-const User = require('./models/user');
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+const { passportInit } = require('./config/passport');
+passportInit(app);
 
+app.use(flash());
 app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
 	res.locals.moment = moment;
+	res.locals.error = req.flash('error');
+	res.locals.success = req.flash('success');
 	next();
 });
 
 const hotelRoutes = require('./routes/hotels');
 const reviewRoutes = require('./routes/reviews');
 const authRoutes = require('./routes/auth');
+const oAuthRoutes = require('./routes/oAuth');
 app.use(hotelRoutes);
 app.use(reviewRoutes);
 app.use(authRoutes);
+app.use(oAuthRoutes);
 
 const port = process.env.PORT;
 app.listen(port, () => {
