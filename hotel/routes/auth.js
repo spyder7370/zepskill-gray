@@ -1,43 +1,21 @@
-const express = require('express');
+const express = require('express'),
+	passport = require('passport');
+
 const router = express.Router();
 const User = require('../models/user');
-const passport = require('passport');
+const authController = require('../controllers/auth');
 
-router.get('/login', (req, res) => {
-	res.render('users/login', { page: 'Login' });
-});
+router.get('/login', authController.loginForm);
 router.post(
 	'/login',
 	passport.authenticate('local', {
 		failureFlash: true,
 		failureRedirect: '/login'
 	}),
-	(req, res) => {
-		res.redirect('/hotels');
-	}
+	authController.loginUser
 );
-router.get('/register', (req, res) => {
-	res.render('users/register', { page: 'Register' });
-});
-router.post('/register', async (req, res) => {
-	try {
-		const userData = new User(req.body.user);
-		const registeredUser = await User.register(userData, req.body.password);
-		req.login(registeredUser, (error) => {
-			if (error) {
-				return res.send(error);
-			}
-			res.redirect('/hotels');
-		});
-	} catch (error) {
-		res.send(error);
-	}
-});
-router.get('/logout', (req, res) => {
-	req.logout((error) => {
-		if (error) return res.send(error);
-		res.redirect('/hotels');
-	});
-});
+router.get('/register', authController.registerForm);
+router.post('/register', authController.registerUser);
+router.get('/logout', authController.logoutUser);
 
 module.exports = router;

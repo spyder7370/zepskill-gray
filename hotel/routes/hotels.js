@@ -63,9 +63,21 @@ router.post('/hotels', isLoggedIn, upload.array('image'), async (req, res) => {
 });
 router.get('/hotels/:id', async (req, res) => {
 	try {
-		const hotel = await Hotel.findById(req.params.id).populate('reviews');
+		const { id } = req.params;
+		let likeExists=null, dislikeExists=null;
+		if(req.user){
+			likeExists = await Hotel.findOne({
+				_id: id,
+				upvotes: req.user._id
+			});
+			dislikeExists = await Hotel.findOne({
+				_id: id,
+				downvotes: req.user._id
+			});
+		}
+		const hotel = await Hotel.findById(id).populate('reviews');
 		const reviews = hotel.reviews;
-		res.render('hotels/show', { reviews, hotel, page: 'Hotel Details - StaySense' });
+		res.render('hotels/show', { likeExists, dislikeExists, reviews, hotel, page: 'Hotel Details - StaySense' });
 	} catch (error) {
 		res.send(error);
 	}
@@ -136,5 +148,81 @@ router.get('/success', (req, res) => {
 });
 router.get('/cancel', (req, res) => {
 	res.send('payment cancelled');
+});
+router.get('/hotels/:id/upvote', isLoggedIn, async (req, res) => {
+	try {
+		const { id } = req.params;
+		const likeExists = await Hotel.findOne({
+			_id: id,
+			upvotes: req.user._id
+		});
+		const dislikeExists = await Hotel.findOne({
+			_id: id,
+			downvotes: req.user._id
+		});
+		// check if user has already liked -> remove that like
+		// check if user has already disliked -> change from dislike to like
+		// else -> add a new like
+		if (likeExists) {
+			await Hotel.findByIdAndUpdate(id, {
+				$pull: { upvotes: req.user._id }
+			});
+			req.flash('success', 'removed your like');
+			res.redirect(`/hotels/${id}`);
+		} else if (dislikeExists) {
+			await Hotel.findByIdAndUpdate(id, {
+				$pull: { downvotes: req.user._id },
+				$push: { upvotes: req.user._id }
+			});
+			req.flash('success', 'changed dislike to like');
+			res.redirect(`/hotels/${id}`);
+		} else {
+			const hotel = await Hotel.findById(id);
+			hotel.upvotes.push(req.user);
+			await hotel.save();
+			req.flash('success', 'added a like');
+			res.redirect(`/hotels/${id}`);
+		}
+	} catch (error) {
+		res.send(error);
+	}
+});
+router.get('/hotels/:id/downvote', isLoggedIn, async (req, res) => {
+	try {
+		const { id } = req.params;
+		const likeExists = await Hotel.findOne({
+			_id: id,
+			upvotes: req.user._id
+		});
+		const dislikeExists = await Hotel.findOne({
+			_id: id,
+			downvotes: req.user._id
+		});
+		// check if user has already disliked -> remove that dislike
+		// check if user has already liked -> change from like to dislike
+		// else -> add a new dislike
+		if (dislikeExists) {
+			await Hotel.findByIdAndUpdate(id, {
+				$pull: { downvotes: req.user._id }
+			});
+			req.flash('success', 'removed your dislike');
+			res.redirect(`/hotels/${id}`);
+		} else if (likeExists) {
+			await Hotel.findByIdAndUpdate(id, {
+				$pull: { upvotes: req.user._id },
+				$push: { downvotes: req.user._id }
+			});
+			req.flash('success', 'changed from like to dislike');
+			res.redirect(`/hotels/${id}`);
+		} else {
+			const hotel = await Hotel.findById(id);
+			hotel.downvotes.push(req.user);
+			await hotel.save();
+			req.flash('success', 'added a dislike');
+			res.redirect(`/hotels/${id}`);
+		}
+	} catch (error) {
+		res.send(error);
+	}
 });
 module.exports = router;

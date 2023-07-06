@@ -23,6 +23,6 @@ module.exports.authUser = async (req, accessToken, refreshToken, profile, done) 
 			done(null, false, req.flash('error', 'already logged in'));
 		}
 	} catch (error) {
-		return done(err, null);
+		return done(error, null);
 	}
 };

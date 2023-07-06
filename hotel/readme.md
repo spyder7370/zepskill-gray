@@ -4,8 +4,8 @@
 - location/geocoding ---------
 - payment
 - contact -----
-- google authentication
-- authorization (isauth, isauthor)
+- google authentication ----
+- authorization (isauth, isauthor) ------
 - upvote/downvote
 
 // data storage -> parser & storage medium

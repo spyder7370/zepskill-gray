@@ -4,27 +4,57 @@
     <div class="row">
         <div class="col-lg-4 m-auto">
             <h1 class="text-center mt-4">New page</h1>
-            <form action="/hotels" method="post" enctype="multipart/form-data">
+            <form class="needs-validation" action="/hotels" method="post" enctype="multipart/form-data" novalidate>
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="hotel[name]">
+                    <input required type="text" class="form-control" id="name" name="hotel[name]">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Name is required
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">Price</label>
-                    <input type="text" class="form-control" id="price" name="hotel[price]">
+                    <input required type="text" class="form-control" id="price" name="hotel[price]">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter hotel price (between 500 & 100000)
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="address" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="address" name="hotel[address]">
+                    <input required type="text" class="form-control" id="address" name="hotel[address]">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Address is required
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Images</label>
-                    <input class="form-control" type="file" id="formFile" name="image" multiple>
+                    <input required class="form-control" type="file" id="formFile" name="image" multiple>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Image is required
+                    </div>
                 </div>
                 <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="description"
+                    <textarea required class="form-control" placeholder="Leave a comment here" id="description"
                         name="hotel[description]"></textarea>
                     <label for="description">Description</label>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Description is required
+                    </div>
                 </div>
 
                 <button type="submit" class="mt-3 btn btn-primary">Submit</button>
@@ -32,4 +62,5 @@
         </div>
     </div>
 </div>
+<script src="/validate.js"></script>
 <%- include('../partials/footer.ejs') %>

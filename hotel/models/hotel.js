@@ -3,9 +3,15 @@ const mongoose = require('mongoose');
 const hotelSchema = new mongoose.Schema({
 	name: {
 		type: String,
-		required: true
+		required: true,
+		trim: true
 	},
-	price: String,
+	price: {
+		type: Number,
+		required: true,
+		min: 500,
+		max: 100000
+	},
 	address: String,
 	description: String,
 	image: [ String ],
@@ -40,7 +46,19 @@ const hotelSchema = new mongoose.Schema({
 	author: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'user'
-	}
+	},
+	upvotes: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'user'
+		}
+	],
+	downvotes: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'user'
+		}
+	]
 });
 
 module.exports = mongoose.model('hotel', hotelSchema);

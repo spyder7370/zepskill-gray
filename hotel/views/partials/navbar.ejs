@@ -26,12 +26,18 @@
                 </li>
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">
+                <% if (currentUser) { %>
                 <li class="nav">
-                    <a class="nav-link" aria-current="page" href="/auth/google">Login via Google</a>
+                    <a class="nav-link" aria-current="page">Logged In As: <%= currentUser.username %></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/logout">Logout</a>
                 </li>
+                <% } else { %>
+                <li class="nav">
+                    <a class="nav-link" aria-current="page" href="/auth/google">Login via Google</a>
+                </li>
+                <% } %>
             </ul>
         </div>
     </div>

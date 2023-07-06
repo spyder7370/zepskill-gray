@@ -1,5 +1,5 @@
-const Review = require('../models/review');
-const Hotel = require('../models/hotel');
+const Review = require('../models/review'),
+	Hotel = require('../models/hotel');
 
 module.exports.isLoggedIn = (req, res, next) => {
 	if (req.isAuthenticated()) {

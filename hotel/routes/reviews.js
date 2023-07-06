@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const Review = require('../models/review');
-const Hotel = require('../models/hotel');
+const express = require('express'),
+	router = express.Router(),
+	Review = require('../models/review'),
+	Hotel = require('../models/hotel');
 // CUD
 const { isLoggedIn, checkReviewUser } = require('../middlewares/index');
 // new
