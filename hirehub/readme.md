@@ -1,13 +1,7 @@
-todo:
-1. authorization -------
-2. user routes --------
-3. job status -----
-4. applying -----
-5. questions -----
-6. tests ----
-7. resume -----
-8. flash ------
-9. fuzzy searching ---
+env
+DB_URI=
+SESSION_SECRET=92BCD6ED83CCCEFA5689A1F33D622
+PORT=
 
 Authentication
 * create session - express session

@@ -1,13 +1,12 @@
-- reviews + ratings  ------------
-- average rating --------
-- file upload ----------
-- location/geocoding ---------
-- payment
-- contact -----
-- google authentication ----
-- authorization (isauth, isauthor) ------
-- upvote/downvote
-
-// data storage -> parser & storage medium
-// text -> urlencoded & mongodb
-// image -> 
+PORT=
+MONGODB_URI=retryWrites=true&w=majority
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+MAPBOX_TOKEN=pk.eyJ1Ijoic3BsaWNlcjk5MDQiLCJhIjoiY2xnN2s5OTB3MDY3azNndDNpa2owaHZ2YiJ9.PedtrrnU42OwchHkKqrmLQ
+EMAIL=
+EMAIL_PASS=
+STRIPE_SECRET_KEY=
+SESSION_SECRET=B755C4542AA7CC95489F583B32B53
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
