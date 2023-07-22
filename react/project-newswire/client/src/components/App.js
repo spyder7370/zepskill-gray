@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Home from './Home';
 import NewNews from './NewNews';
@@ -14,6 +16,7 @@ const App = () => {
 		<React.Fragment>
 			<BrowserRouter>
 				<NavbarComponent />
+				<ToastContainer />
 				<Container>
 					<Routes>
 						<Route path="/" element={<Home />} />

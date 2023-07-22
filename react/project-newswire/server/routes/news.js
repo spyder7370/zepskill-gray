@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const News = require('../models/news');
+const { sendEmail } = require('../config/email');
 
 router.get('/news', async (req, res) => {
 	try {
@@ -55,6 +56,21 @@ router.patch('/news/:id', async (req, res) => {
 router.delete('/news/:id', async (req, res) => {
 	try {
 		await News.findByIdAndRemove(req.params.id);
+		res.json('ok');
+	} catch (error) {
+		console.log(error);
+	}
+});
+
+router.post('/contact', async (req, res) => {
+	try {
+		console.log(req.body);
+		const userObj = {
+			email: req.body.email,
+			subject: req.body.subject,
+			content: req.body.content
+		};
+		await sendEmail(userObj);
 		res.json('ok');
 	} catch (error) {
 		console.log(error);

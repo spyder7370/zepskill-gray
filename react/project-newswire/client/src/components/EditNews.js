@@ -1,24 +1,77 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Alert from 'react-bootstrap/Alert';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchNewsById } from '../store/actions/index';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const EditNews = () => {
+	const newsItem = useSelector((store) => store.newsReducer.newsItem);
+	// console.log(allNews);
+	const dispatch = useDispatch();
+	const params = useParams();
+	const navigate = useNavigate();
+
+	const [ newsValues, setNewsValues ] = useState({
+		title: '',
+		content: '',
+		image: '',
+		author: ''
+	});
+
+	useEffect(
+		() => {
+			dispatch(fetchNewsById(params.id)).then(() => {
+				setNewsValues(newsItem);
+			});
+		},
+		[ dispatch, params ]
+	);
+
+	const updateNewsInDb = async (values) => {
+		try {
+			const news = {
+				title: values.title,
+				image: values.image,
+				author: values.author,
+				content: values.content
+			};
+			await axios.patch(`https://zepskillgraynewswireapi.onrender.com/news/${params.id}`, { news });
+			toast.success('successfully updated the news', {
+				position: 'top-right',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: 'dark'
+			});
+			navigate('/');
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const formik = useFormik({
 		initialValues: {
-			title: 'Title',
-			content: 'Some news content',
-			author: 'Admin',
-			image: 'https://picsum.photos/1920/1080'
+			title: newsValues.title,
+			content: newsValues.content,
+			author: newsValues.author,
+			image: newsValues.image
 		},
+		enableReinitialize: true,
 		validationSchema: Yup.object({
 			title: Yup.string().max(30, 'Must be 15 characters or less').required('Headline is required'),
 			content: Yup.string().required('News body is required'),
 			author: Yup.string().max(15, 'Username must be below 15 characters').required('Username is required'),
 			image: Yup.string().url('Must be a valid url').required('Image is required')
 		}),
-		onSubmit: (values) => {
-			console.log(values);
+		onSubmit: async (values) => {
+			await updateNewsInDb(values);
 		}
 	});
 	return (

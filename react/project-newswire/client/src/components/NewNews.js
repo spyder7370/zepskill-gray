@@ -2,8 +2,47 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Alert from 'react-bootstrap/Alert';
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 const NewNews = () => {
+	const navigate = useNavigate();
+
+	const addNewsToDB = async (values) => {
+		try {
+			const news = {
+				title: values.title,
+				image: values.image,
+				author: values.author,
+				content: values.content
+			};
+			await axios.post('https://zepskillgraynewswireapi.onrender.com/news', { news });
+			toast.success('successfully posted the news', {
+				position: 'top-right',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: 'dark'
+			});
+			navigate('/');
+		} catch (error) {
+			toast.error('something went wrong', {
+				position: 'top-right',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: 'dark'
+			});
+			console.log(error);
+		}
+	};
+
 	const formik = useFormik({
 		initialValues: {
 			title: '',
@@ -17,8 +56,8 @@ const NewNews = () => {
 			author: Yup.string().max(15, 'Username must be below 15 characters').required('Username is required'),
 			image: Yup.string().url('Must be a valid url').required('Image is required')
 		}),
-		onSubmit: (values) => {
-			console.log(values);
+		onSubmit: async (values) => {
+			await addNewsToDB(values);
 		}
 	});
 	return (

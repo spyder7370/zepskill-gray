@@ -2,8 +2,20 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Alert from 'react-bootstrap/Alert';
+import axios from 'axios';
+import { sendToast } from '../utils/sendToast';
 
 const Contact = () => {
+	const sendEmail = async (values) => {
+		try {
+			await axios.post('https://zepskillgraynewswireapi.onrender.com/contact', values);
+			sendToast('success', 'successfully sent email');
+		} catch (error) {
+			sendToast('error', 'email could not be sent');
+			console.log(error);
+		}
+	};
+
 	const formik = useFormik({
 		initialValues: {
 			subject: '',
@@ -15,8 +27,9 @@ const Contact = () => {
 			content: Yup.string().required('News body is required'),
 			email: Yup.string().email('Must be a valid email').required('Email is required')
 		}),
-		onSubmit: (values) => {
-			console.log(values);
+		onSubmit: async (values, { resetForm }) => {
+			await sendEmail(values);
+			resetForm();
 		}
 	});
 	return (
